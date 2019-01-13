@@ -21,11 +21,10 @@ using std::ostream;
 namespace boot {
 
     int main(int argc, char **argv) {
-        CashManager *cm = new FileCacheManager(argv[1], argv[2]);
+        CashManager *cm = new FileCacheManager("db.txt");
         Solver<Searchable *, vector<Point *> *> *solver = new SolveSearchAdapter(new Bestfs());
         ClientHandler<Searchable *, vector<Point *> *> *clientHandler = new MyMatrixClient(solver, cm);
-
-
+        clientHandler->handleClient(argv[1], argv[2]);
     }
 
 };

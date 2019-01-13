@@ -6,15 +6,25 @@
 #include "ClientHandler.h"
 #include "Matrix.h"
 
+using std::cout;
+
 class MyMatrixClient : public ClientHandler<Searchable *, vector<Point *> *> {
 public:
-    MyMatrixClient() {}
 
     MyMatrixClient(Solver<Searchable *, vector<Point *> *> *solver, CashManager *cashManager)
             : ClientHandler<Searchable *, vector<Point *> *>(solver, cashManager) {}
 
     void handleClient(string inputFile, string outputFile) override {
-
+        auto v = new vector<vector<Point *> *>;
+        for (int i = 0; i < 5; i++) {
+            auto line = new vector<Point *>;
+            for (int j = 0; j < 5; j++) {
+                line->push_back(new Point(i, j, 123 + i * j - i % 6));
+            }
+            v->push_back(line);
+        }
+        Matrix *m = new Matrix(v);
+        m->print();
     }
 
 };

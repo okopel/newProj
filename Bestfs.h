@@ -46,7 +46,7 @@ public:
             if (s == goal) {
                 return this->backTrace(initionl, goal);
             }
-            auto *possibleSates = searchable->getAllPossibleStates(s);
+            auto *possibleSates = searchable->getAllPossibleStates(searchable, s);
             for (int i = 0; i < possibleSates->size(); i++) {
                 //for (auto state:possibleSates) {
                 bool isInOpen = false;

@@ -5,11 +5,9 @@
 #include "CashManager.h"
 
 class FileCacheManager : public CashManager {
-    string inputFileName;
-    string outputFileName;
+    string fileName;
 public:
-    FileCacheManager(const string &inputFileName, const string &outputFileName) : inputFileName(inputFileName),
-                                                                                  outputFileName(outputFileName) {}
+    FileCacheManager(const string &fileName) : fileName(fileName) {}
 
     void saveSolution(const string &problam, const string &solution) override {
 //todo;

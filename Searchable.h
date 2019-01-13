@@ -14,7 +14,8 @@ protected:
 
 public:
 
-    virtual vector<Point *> *getAllPossibleStates(Point *myPlace);
+    virtual vector<Point *> *getAllPossibleStates(Searchable *searchable, Point *myPlace) = 0;
+
 
     Point *getInition() const {
         return inition;

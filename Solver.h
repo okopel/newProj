@@ -4,7 +4,7 @@
 
 template<class ProblemType, class SolutionType>
 class Solver {
-
+public:
     virtual SolutionType solve(ProblemType problem) = 0;
 };
 

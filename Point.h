@@ -2,6 +2,8 @@
 
 #ifndef NEWPROJ_POINT_H
 #define NEWPROJ_POINT_H
+using std::ostream;
+using std::to_string;
 
 class Point {
     int x;
@@ -52,6 +54,10 @@ public:
 
     void setCost(int cost) {
         Point::cost = cost;
+    }
+
+    string print() {
+        return to_string(this->getCost());
     }
 
 };
