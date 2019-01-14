@@ -24,8 +24,15 @@ public:
         Point::cameFrom = cameFrom;
     }
 
+    bool equal(Point *other) {
+        return this->operator==(other);
+    }
+
     bool operator==(Point *other) {
-        return (this->x == other->getX()) && (this->y == other->getY());
+        if (other == nullptr) {
+            return false;
+        }
+        return this->operator==(*other);
     }
 
     bool operator==(Point other) {
@@ -54,6 +61,10 @@ public:
 
     void setCost(int cost) {
         Point::cost = cost;
+    }
+
+    string printIndex() {
+        return "(" + to_string(this->x) + "," + to_string(this->y) + ")";
     }
 
     string print() {

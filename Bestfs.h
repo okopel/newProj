@@ -16,6 +16,8 @@ using std::priority_queue;
 using std::list;
 using std::begin;
 using std::end;
+using std::cout;
+using std::endl;
 
 class Bestfs : public Searcher {
 
@@ -36,19 +38,20 @@ public:
         auto initionl = searchable->getInition();
         auto goal = searchable->getGoal();
         priority_queue<Point *> open;
-        // list<State<T> *> open;
         open.push(initionl);
         list<Point *> closed;
         while (!open.empty()) {
             auto s = open.top();
             open.pop();
             closed.push_back(s);
-            if (s == goal) {
-                return this->backTrace(initionl, goal);
+            if (s->equal(goal)) {
+                return this->backTrace(initionl, s);
             }
             auto *possibleSates = searchable->getAllPossibleStates(searchable, s);
             for (int i = 0; i < possibleSates->size(); i++) {
-                //for (auto state:possibleSates) {
+                if (possibleSates->at(i) == nullptr) {
+                    continue;
+                }
                 bool isInOpen = false;
                 bool isInClose = false;
                 for (auto vertex:closed) {
@@ -66,8 +69,7 @@ public:
                     if (possibleSates->at(i)->getCost() > (s->getCost() + 1)) {
                         possibleSates->at(i)->setCost(s->getCost() + 1);
                         possibleSates->at(i)->setCameFrom(s);
-                    }
-                    if (!isInOpen) {
+                    } else if (!isInOpen) {
                         open.push(possibleSates->at(i));
                     }
                     //todo Otherwise, adjust its priority in OPEN??
