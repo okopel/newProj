@@ -19,7 +19,7 @@ public:
         for (int i = 0; i < 5; i++) {
             auto line = new vector<Point *>;
             for (int j = 0; j < 5; j++) {
-                line->push_back(new Point(i, j, 123 + i * j - i % 6));
+                line->push_back(new Point(i, j, 123 - (i * j) + i * j - i % 2));
             }
             v->push_back(line);
         }
