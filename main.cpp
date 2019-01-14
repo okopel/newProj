@@ -10,6 +10,7 @@
 #include "ClientHandler.h"
 #include "MyMatrixClientHandler.h"
 #include "BFS.h"
+#include "DFS.h"
 
 using std::string;
 using std::cout;
@@ -23,7 +24,7 @@ namespace boot {
 
     int main(int argc, char **argv) {
         CashManager *cm = new FileCacheManager("db.txt");
-        Solver<Searchable *, vector<Point *> *> *solver = new SolveSearchAdapter(new BFS());
+        Solver<Searchable *, vector<Point *> *> *solver = new SolveSearchAdapter(new DFS());
         ClientHandler<Searchable *, vector<Point *> *> *clientHandler = new MyMatrixClient(solver, cm);
         clientHandler->handleClient(argv[1], argv[2]);
     }

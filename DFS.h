@@ -8,17 +8,18 @@
 
 using std::list;
 
-class DFS : Searcher {
+class DFS : public Searcher {
+public:
     vector<Point *> *search(Searchable *searchable) override {
         // create database
         auto *blacks = new list<Point *>;
         auto *grays = new list<Point *>;
         Point *begin = searchable->getInition();
-        this->visit(begin, blacks, grays, searchable);
-
+        Point *goal = this->visit(begin, blacks, grays, searchable);
+        return this->backTrace(searchable->getInition(), goal);
     }
 
-    void visit(Point *state, list<Point *> *blacks, list<Point *> *grays, Searchable *searchable) {
+    Point *visit(Point *state, list<Point *> *blacks, list<Point *> *grays, Searchable *searchable) {
         // stop condition
         if (searchable->getGoal() == state) { return state; }
         grays->push_back(state);
@@ -32,7 +33,7 @@ class DFS : Searcher {
             }
             if (isWhite) {
                 a->setCameFrom(state);
-                this->visit(a, blacks, grays, searchable);
+                return this->visit(a, blacks, grays, searchable);
             }
         }
         blacks->push_back(state);
