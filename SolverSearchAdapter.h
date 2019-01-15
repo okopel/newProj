@@ -22,6 +22,8 @@ public:
         return searcher->search(problem);
     }
 
+    virtual ~SolveSearchAdapter() {
+    }
 };
 
 #endif //NEWPROJ_SOLVERSEARCHADAPTER_H

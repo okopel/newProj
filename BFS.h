@@ -28,7 +28,6 @@ public:
             if (s->equal(searchable->getGoal())) {
                 return this->backTrace(searchable->getInition(), s);
             }
-
             auto adjs = searchable->getAllPossibleStates(searchable, s);
             for (auto adj : *adjs) {
                 if (adj == nullptr || adj->getCost() == -1) {

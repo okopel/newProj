@@ -12,6 +12,7 @@
 #include "BFS.h"
 #include "DFS.h"
 #include "Astar.h"
+#include "myAstar.h"
 
 using std::string;
 using std::cout;
@@ -25,11 +26,25 @@ namespace boot {
 
     int main(int argc, char **argv) {
         CashManager *cm = new FileCacheManager("db.txt");
-        Solver<Searchable *, vector<Point *> *> *solver = new SolveSearchAdapter(new AStar());
-        ClientHandler<Searchable *, vector<Point *> *> *clientHandler = new MyMatrixClient(solver, cm);
-        clientHandler->handleClient(argv[1], argv[2]);
-    }
 
+        auto searchers = new vector<Searcher *>;
+        searchers->push_back(new BFS());
+        searchers->push_back(new DFS());
+        searchers->push_back(new myAStar());
+        searchers->push_back(new Bestfs());
+
+        for (auto iter: *searchers) {
+            Solver<Searchable *, vector<Point *> *> *solver = new SolveSearchAdapter(iter);
+            ClientHandler<Searchable *, vector<Point *> *> *clientHandler = new MyMatrixClient(solver, cm);
+            clientHandler->handleClient(argv[1], argv[2]);
+            delete clientHandler;
+        }
+        for (auto iter: *searchers) {
+            delete iter;
+        }
+        delete (cm);
+        cout << "GOOS JOB" << endl;
+    }
 };
 
 int main(int argc, char **argv) {

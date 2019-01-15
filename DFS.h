@@ -16,15 +16,17 @@ public:
         auto *grays = new list<Point *>;
         Point *begin = searchable->getInition();
         Point *goal = this->visit(begin, blacks, grays, searchable);
-        if (goal == nullptr) {
-            return nullptr;
+        if (goal == searchable->getGoal()) {
+            return this->backTrace(searchable->getInition(), goal);
         }
-        return this->backTrace(searchable->getInition(), goal);
+        //  delete blacks;
+        // delete grays;
+        return nullptr;
     }
 
     Point *visit(Point *state, list<Point *> *blacks, list<Point *> *grays, Searchable *searchable) {
         // stop condition
-        if (searchable->getGoal() == state) { return state; }
+        if (searchable->getGoal()->equal(state)) { return state; }
         grays->push_back(state);
         auto *adjs = searchable->getAllPossibleStates(searchable, state);
         for (auto a : *adjs) {
@@ -39,7 +41,10 @@ public:
             }
             if (isWhite) {
                 a->setCameFrom(state);
-                return this->visit(a, blacks, grays, searchable);
+                Point *tmp = this->visit(a, blacks, grays, searchable);
+                if (tmp == searchable->getGoal()) {
+                    return tmp;
+                }
             }
         }
         blacks->push_back(state);

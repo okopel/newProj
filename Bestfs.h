@@ -72,6 +72,7 @@ public:
                 }
                 //todo Otherwise, adjust its priority in OPEN??
             }
+            delete possibleSates;
         }
 
         return nullptr;//there is not path

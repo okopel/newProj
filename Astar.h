@@ -40,58 +40,59 @@ private:
 
 
 public:
-    class gPoint {
-        Point *p;
-        int gscore;
-    public:
-        gPoint(Point *p) : p(p), gscore(INTMAX_MAX - 1) {}
-
-        int getGscore() {
-            return gscore;
-        }
-
-        void setGscore(int gscore) {
-            gPoint::gscore = gscore;
-        }
-
-        int getFscore() {
-            return p->getCost();
-        }
-
-        Point *getP() const {
-            return p;
-        }
-
-        void setCameFrom(Point *p) {
-            this->p->setCameFrom(p);
-        }
-
-        Point *getCameFrom() {
-            return this->p->getCameFrom();
-        }
-    };
+//    class gPoint {
+//        Point *p;
+//        int gscore;
+//    public:
+//        gPoint(Point *p) : p(p), gscore(INTMAX_MAX - 1) {}
+//
+//        int getGscore() {
+//            return gscore;
+//        }
+//
+//        void setGscore(int gscore) {
+//            gPoint::gscore = gscore;
+//        }
+//
+//        int getFscore() {
+//            return p->getCost();
+//        }
+//
+//        Point *getP() const {
+//            return p;
+//        }
+//
+//        void setCameFrom(Point *p) {
+//            this->p->setCameFrom(p);
+//        }
+//
+//        Point *getCameFrom() {
+//            return this->p->getCameFrom();
+//        }
+//    };
 
     vector<Point *> *search(Searchable *searchable) override {
-        list<gPoint *> close;
+        list<Point *> close;
         // TODO: according fscore value
-//        map<Point *, int> gScore;
-        auto cmp = [](gPoint *p1, gPoint *p2) { return p1->getFscore() < p2->getFscore(); };
-        priority_queue<gPoint *, decltype(cmp)> open(cmp);
 
-        //priority_queue<Point *> open;
-        open.push(new gPoint(searchable->getInition());
+        //auto cmp = [](gPoint *p1, gPoint *p2) { return p1->getFscore() < p2->getFscore(); };
+        priority_queue<Point *> open;
+
+
+        open.push(searchable->getInition());
         // initialize heuristic cost as -1
 
-        for (auto point : gScore) {
-            auto p = point.first;
-            gScore.at(p) = INTMAX_MAX - 1;
-        }
+//        for (auto point : gScore) {
+//            auto p = point.first;
+//            gScore.at(p) = INTMAX_MAX - 1;
+//        }
         // this is not forest, so we begin from 1 vertex
         //  gScore[searchable->getInition()] = 0;
         map<Point *, int> fScore;
+        map<Point *, int> gScore;
         for (auto point : fScore) {
             auto p = point.first;
-            gScore.at(p) = INTMAX_MAX - 1;
+            gScore.at(p) = 999999;
         }
         fScore[searchable->getInition()] = this->heuristicCost(searchable->getInition(), searchable->getGoal());
         while (!open.empty()) {

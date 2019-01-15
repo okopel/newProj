@@ -25,6 +25,9 @@ public:
     }
 
     bool equal(Point *other) {
+        if (other == nullptr) {
+            return false;
+        }
         return this->operator==(other);
     }
 
@@ -71,6 +74,13 @@ public:
         return to_string(this->getCost());
     }
 
+    void costPlus(int num) {
+        this->cost += num;
+    }
+
+    void costMinus(int num) {
+        this->cost -= num;
+    }
 };
 
 #endif //NEWPROJ_POINT_H

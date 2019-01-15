@@ -71,6 +71,15 @@ public:
         return posStates;
     }
 
+    virtual ~Matrix() {
+        for (auto m:*this->myMatrix) {
+            for (auto n:*m) {
+                delete n;
+            }
+            delete m;
+        }
+        delete this->myMatrix;
+    }
 };
 
 

@@ -98,13 +98,8 @@ public:
     void handleClient(string inputFile, string outputFile) override {
         auto matrixes = new vector<Matrix *>;
         ifstream inputStream;
-        inputStream.
-                open(inputFile);
-        if (!inputStream.
-
-                is_open()
-
-                ) {
+        inputStream.open(inputFile);
+        if (!inputStream.is_open()) {
             throw "Error in input file";
         }
         ofstream outputStream;
@@ -119,19 +114,25 @@ public:
             matrixes->push_back(this->getMatrix(inputStream)
             );
         }
+        int i = 0;
         for (auto vec: *matrixes) {
-            cout << "Here is a solution:" << endl;
+            cout << "Here is a solution:" << i++ << endl;
             auto solution = this->solver->solve(vec);
             if (solution == nullptr) {
-                cout << "there is no path" << endl;
+                cout << "There is no path" << endl;
             } else {
                 reverse(solution->begin(), solution->end());
-
                 this->printPath(solution);
                 cout << endl << "End Of Solution." << endl;
+                delete solution;
             }
         }
         cout << "DONE!" << endl;
+        for (auto mat: *matrixes) {
+            delete mat;
+        }
+        delete matrixes;
+        delete this->solver;
         inputStream.close();
         outputStream.close();
     }

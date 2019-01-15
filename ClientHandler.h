@@ -19,6 +19,11 @@ public:
                                                                                          cashManager(cashManager) {}
 
     virtual void handleClient(string inputFile, string outputFile) = 0;
+
+    virtual ~ClientHandler() {
+//        delete this->solver;
+//        delete this->cashManager;
+    }
 };
 
 #endif //NEWPROJ_CLIENTHANDLER_H
