@@ -1,5 +1,3 @@
-
-
 #ifndef NEWPROJ_BFS_H
 #define NEWPROJ_BFS_H
 
@@ -22,24 +20,23 @@ public:
         list<Point *> close;
         // this is not forest, so we begin from 1 vertex
         queue.push(searchable->getInition());
-
+        close.push_back(queue.front());
         while (!queue.empty()) {
-            Point *s = queue.front();
+            auto s = queue.front();
             queue.pop();
             // stop condition : return goal
             if (s->equal(searchable->getGoal())) {
-                cout << "!!!" << endl;
                 return this->backTrace(searchable->getInition(), s);
             }
 
-            vector<Point *> *adjs = searchable->getAllPossibleStates(searchable, s);
+            auto adjs = searchable->getAllPossibleStates(searchable, s);
             for (auto adj : *adjs) {
                 if (adj == nullptr || adj->getCost() == -1) {
                     continue;
                 }
                 // mark all states as visited or not
                 bool childVisited = false;
-                for (auto &vertex : close) {
+                for (auto vertex : close) {
                     if (vertex->equal(adj)) {
                         childVisited = true;
                         break;
@@ -51,9 +48,8 @@ public:
                     adj->setCameFrom(s);
                     queue.push(adj);
                 }
+
             }
-            queue.pop();
-            close.push_back(s);
         }
         return nullptr;//there isnt path
     }

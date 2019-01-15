@@ -13,6 +13,7 @@ class Matrix : public Searchable {
     vector<vector<Point *> *> *myMatrix;
     int height;
     int width;
+public:
 
     Point *getPointByIndex(int x, int y) {
         try {
@@ -22,7 +23,6 @@ class Matrix : public Searchable {
         }
     }
 
-public:
     Matrix() {}
 
     Matrix(vector<vector<Point *> *> *myMatrix) : myMatrix(myMatrix) {

@@ -57,9 +57,12 @@ class MyMatrixClient : public ClientHandler<Searchable *, vector<Point *> *> {
             v->push_back(this->getLine(i, buffer));
 
         }
+
         Matrix *matrix = new Matrix(v);
-        matrix->setInition(inition);//todo send the real inition
-        matrix->setGoal(goal);//todo send the real goal pair??
+        matrix->setInition(matrix->getPointByIndex(inition->getX(), inition->getY()));
+        matrix->setGoal(matrix->getPointByIndex(goal->getX(), goal->getY()));
+        delete inition;
+        delete goal;
         return matrix;
     }
 

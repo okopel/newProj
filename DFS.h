@@ -16,6 +16,9 @@ public:
         auto *grays = new list<Point *>;
         Point *begin = searchable->getInition();
         Point *goal = this->visit(begin, blacks, grays, searchable);
+        if (goal == nullptr) {
+            return nullptr;
+        }
         return this->backTrace(searchable->getInition(), goal);
     }
 
@@ -25,9 +28,12 @@ public:
         grays->push_back(state);
         auto *adjs = searchable->getAllPossibleStates(searchable, state);
         for (auto a : *adjs) {
+            if (a == nullptr || a->getCost() == -1) {
+                continue;
+            }
             bool isWhite = true;
             for (auto v:*grays) {
-                if (v == a) {
+                if (v->equal(a)) {
                     isWhite = false;
                 }
             }
