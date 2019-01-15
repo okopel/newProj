@@ -4,6 +4,7 @@
 #define NEWPROJ_MYMATRIXCLIENTHANDLER_H
 
 #include <fstream>
+#include <algorithm>
 #include "ClientHandler.h"
 #include "Matrix.h"
 
@@ -57,9 +58,33 @@ class MyMatrixClient : public ClientHandler<Searchable *, vector<Point *> *> {
 
         }
         Matrix *matrix = new Matrix(v);
-        matrix->setInition(inition);
-        matrix->setGoal(goal);
+        matrix->setInition(inition);//todo send the real inition
+        matrix->setGoal(goal);//todo send the real goal pair??
         return matrix;
+    }
+
+
+    void printPath(vector<Point *> *path) {
+        auto tmpPoint = path->front();
+        path->erase(path->begin());
+        cout << tmpPoint->printIndex();
+        for (auto p: *path) {
+
+            cout << "->";
+            if (p->getX() < tmpPoint->getX()) {
+                cout << "left";
+            } else if (p->getX() > tmpPoint->getX()) {
+                cout << "right";
+            } else if (p->getY() < tmpPoint->getY()) {
+                cout << "up";
+            } else if (p->getY() > tmpPoint->getY()) {
+                cout << "down";
+            }
+            cout << p->printIndex();
+            tmpPoint = p;
+            path->pop_back();
+        }
+
     }
 
 public:
@@ -92,12 +117,18 @@ public:
             );
         }
         for (auto vec: *matrixes) {
+            cout << "Here is a solution:" << endl;
             auto solution = this->solver->solve(vec);
-            for (auto point: *solution) {
-                cout << point->printIndex() << "\t";
+            if (solution == nullptr) {
+                cout << "there is no path" << endl;
+            } else {
+                reverse(solution->begin(), solution->end());
+
+                this->printPath(solution);
+                cout << endl << "End Of Solution." << endl;
             }
-            cout << endl;
         }
+        cout << "DONE!" << endl;
         inputStream.close();
         outputStream.close();
     }

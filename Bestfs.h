@@ -49,7 +49,7 @@ public:
             }
             auto *possibleSates = searchable->getAllPossibleStates(searchable, s);
             for (int i = 0; i < possibleSates->size(); i++) {
-                if (possibleSates->at(i) == nullptr) {
+                if (possibleSates->at(i) == nullptr || possibleSates->at(i)->getCost() == -1) {
                     continue;
                 }
                 bool isInOpen = false;
@@ -69,13 +69,15 @@ public:
                     if (possibleSates->at(i)->getCost() > (s->getCost() + 1)) {
                         possibleSates->at(i)->setCost(s->getCost() + 1);
                         possibleSates->at(i)->setCameFrom(s);
-                    } else if (!isInOpen) {
+                    }
+                    if (!isInOpen) {
                         open.push(possibleSates->at(i));
                     }
                     //todo Otherwise, adjust its priority in OPEN??
                 }
             }
         }
+        return nullptr;//there is not path
     }
 };
 

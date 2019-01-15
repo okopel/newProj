@@ -40,7 +40,6 @@ public:
         map<Point *, int> fScore;
         for (auto *point : fScore) {//todo any value to inf
             gScore.at(point) = -1;
-
         }
         fScore[searchable->getInition()] = this->heuristicCost(searchable->getInition(), searchable->getGoal());
         while (!open.empty()) {
@@ -89,7 +88,6 @@ public:
             }
         }
     }
-
 };
 
 
