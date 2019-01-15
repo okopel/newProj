@@ -30,6 +30,18 @@ public:
         this->width = myMatrix->at(0)->size();
     }
 
+    string getStringToCache() {
+        string answer;
+        for (auto item:*this->myMatrix) {
+            for (auto node:*item) {
+                answer += to_string(node->getCost()) + ",";
+            }
+            answer += ";";
+        }
+
+        return answer;
+    }
+
     void print() {
         for (auto line:*this->myMatrix) {
             for (auto *col:*line) {

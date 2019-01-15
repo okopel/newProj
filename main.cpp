@@ -28,10 +28,10 @@ namespace boot {
         CashManager *cm = new FileCacheManager("db.txt");
 
         auto searchers = new vector<Searcher *>;
-        searchers->push_back(new BFS());
+//        searchers->push_back(new myAStar());
+//        searchers->push_back(new Bestfs());
         searchers->push_back(new DFS());
-        searchers->push_back(new myAStar());
-        searchers->push_back(new Bestfs());
+        searchers->push_back(new BFS());
 
         for (auto iter: *searchers) {
             Solver<Searchable *, vector<Point *> *> *solver = new SolveSearchAdapter(iter);

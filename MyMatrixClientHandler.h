@@ -67,27 +67,29 @@ class MyMatrixClient : public ClientHandler<Searchable *, vector<Point *> *> {
     }
 
 
-    void printPath(vector<Point *> *path) {
+    string printPath(vector<Point *> *path) {
+        string ans;
         auto tmpPoint = path->front();
         path->erase(path->begin());
-        cout << tmpPoint->printIndex();
+        //cout << tmpPoint->printIndex();
         for (auto p: *path) {
-
-            cout << "->";
-            if (p->getX() < tmpPoint->getX()) {
-                cout << "left";
-            } else if (p->getX() > tmpPoint->getX()) {
-                cout << "right";
-            } else if (p->getY() < tmpPoint->getY()) {
-                cout << "up";
-            } else if (p->getY() > tmpPoint->getY()) {
-                cout << "down";
+            if (!ans.empty()) {
+                ans += "->";
             }
-            cout << p->printIndex();
+            if (p->getX() < tmpPoint->getX()) {
+                ans += "left";
+            } else if (p->getX() > tmpPoint->getX()) {
+                ans += "right";
+            } else if (p->getY() < tmpPoint->getY()) {
+                ans += "up";
+            } else if (p->getY() > tmpPoint->getY()) {
+                ans += "down";
+            }
+            //cout << p->printIndex();
             tmpPoint = p;
             path->pop_back();
         }
-
+        return ans;
     }
 
 public:
@@ -116,16 +118,19 @@ public:
         }
         int i = 0;
         for (auto vec: *matrixes) {
-            cout << "Here is a solution:" << i++ << endl;
+            //cout << "Here is a solution:" << i++ << endl;
             auto solution = this->solver->solve(vec);
+            string solutionString;
             if (solution == nullptr) {
-                cout << "There is no path" << endl;
+                solutionString = "There is no path";
             } else {
                 reverse(solution->begin(), solution->end());
-                this->printPath(solution);
-                cout << endl << "End Of Solution." << endl;
+                solutionString = this->printPath(solution);
                 delete solution;
             }
+            //    cout << solutionString;
+            //   cout << endl << "End Of Solution." << endl;
+            this->cashManager->saveSolution(vec->getStringToCache(), solutionString);
         }
         cout << "DONE!" << endl;
         for (auto mat: *matrixes) {
