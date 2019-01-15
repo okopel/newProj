@@ -61,22 +61,19 @@ public:
                     }
                 }
                 isInOpen = this->isInOpen(*possibleSates->at(i), open);
-
                 if (!isInClose && !isInOpen) {
                     possibleSates->at(i)->setCameFrom(s);
                     open.push(possibleSates->at(i));
+                } else if (isInClose) {
+                    continue;
                 } else {
-                    if (possibleSates->at(i)->getCost() > (s->getCost() + 1)) {
-                        possibleSates->at(i)->setCost(s->getCost() + 1);
-                        possibleSates->at(i)->setCameFrom(s);
-                    }
-                    if (!isInOpen) {
-                        open.push(possibleSates->at(i));
-                    }
-                    //todo Otherwise, adjust its priority in OPEN??
+                    possibleSates->at(i)->setCameFrom(s);
+                    open.push(possibleSates->at(i));
                 }
+                //todo Otherwise, adjust its priority in OPEN??
             }
         }
+
         return nullptr;//there is not path
     }
 };
