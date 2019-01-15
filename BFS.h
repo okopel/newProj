@@ -27,16 +27,20 @@ public:
             Point *s = queue.front();
             queue.pop();
             // stop condition : return goal
-            if (s == searchable->getGoal()) {
+            if (s->equal(searchable->getGoal())) {
+                cout << "!!!" << endl;
                 return this->backTrace(searchable->getInition(), s);
             }
 
             vector<Point *> *adjs = searchable->getAllPossibleStates(searchable, s);
             for (auto adj : *adjs) {
+                if (adj == nullptr || adj->getCost() == -1) {
+                    continue;
+                }
                 // mark all states as visited or not
                 bool childVisited = false;
                 for (auto &vertex : close) {
-                    if (vertex == adj) {
+                    if (vertex->equal(adj)) {
                         childVisited = true;
                         break;
                     }
@@ -51,6 +55,7 @@ public:
             queue.pop();
             close.push_back(s);
         }
+        return nullptr;//there isnt path
     }
 };
 
