@@ -28,8 +28,8 @@ namespace boot {
         CashManager *cm = new FileCacheManager("db.txt");
 
         auto searchers = new vector<Searcher *>;
-//        searchers->push_back(new myAStar());
-//        searchers->push_back(new Bestfs());
+        searchers->push_back(new myAStar());
+        searchers->push_back(new Bestfs());
         searchers->push_back(new DFS());
         searchers->push_back(new BFS());
 

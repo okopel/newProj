@@ -11,12 +11,13 @@ using std::to_string;
 class Point : public State<int> {
     int x;
     int y;
-    int cost;
+    // int cost;
     Point *cameFrom;
 
 public:
-    Point(int x, int y, int cost) : x(x), y(y), cost(cost) {
-        cameFrom = nullptr;
+    Point(int x, int y, int cost) : State(cost), x(x), y(y) {
+        State::cameFrom = nullptr;
+        this->cameFrom = nullptr;
     }
 
     Point *getCameFrom() const {
@@ -25,6 +26,7 @@ public:
 
     void setCameFrom(Point *cameFrom) {
         Point::cameFrom = cameFrom;
+        State::cameFrom = cameFrom;
     }
 
     bool equal(Point *other) {
@@ -62,11 +64,11 @@ public:
     }
 
     int getCost() const {
-        return cost;
+        return State::state;
     }
 
     void setCost(int cost) {
-        Point::cost = cost;
+        State::setState(cost);
     }
 
     string printIndex() {
@@ -78,11 +80,11 @@ public:
     }
 
     void costPlus(int num) {
-        this->cost += num;
+        State::setState(this->getCost() + num);
     }
 
     void costMinus(int num) {
-        this->cost -= num;
+        State::setState(this->getCost() - num);
     }
 };
 
