@@ -46,9 +46,10 @@ namespace boot {
         }
         for (auto iter: *searchers) {
             delete iter;
+
         }
-        delete (cm);
-        cout << "GOOS JOB" << endl;
+        delete cm;
+        cout << "GOOD JOB" << endl;
     }
 };
 

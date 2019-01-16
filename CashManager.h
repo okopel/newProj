@@ -25,6 +25,7 @@ public:
 
     virtual void saveSolution(const string &problam, const string &solution) = 0;
 
+    virtual ~CashManager() = default;
 };
 
 bool CashManager::isSolved(const string &problam) {
@@ -37,5 +38,6 @@ bool CashManager::isSolved(const string &problam) {
 string CashManager::getSolution(const string &problam) {
     return this->solMap.at(problam);
 }
+
 
 #endif //NEWPROJ_CASHMANAGER_H

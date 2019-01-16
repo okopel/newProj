@@ -23,7 +23,7 @@ public:
 
     Point *getPointByIndex(int x, int y) {
         try {
-            return this->myMatrix->at(y)->at(x);
+            return this->myMatrix->at(x)->at(y);
         } catch (...) {
             return nullptr;
         }
@@ -31,7 +31,7 @@ public:
 
     Matrix() {}
 
-    Matrix(vector<vector<Point *> *> *myMatrix) : myMatrix(myMatrix) {
+    Matrix(vector<vector<Point *> *> *myMatrix) : Searchable(), myMatrix(myMatrix) {
         this->height = myMatrix->size();
         this->width = myMatrix->at(0)->size();
     }

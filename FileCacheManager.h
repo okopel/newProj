@@ -46,7 +46,7 @@ class FileCacheManager : public CashManager {
             saver << prob.first;
             saver << prob.second;
         }
-        saver << "EOF";
+        saver << "\nEOF";
     }
 
 public:

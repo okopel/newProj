@@ -59,21 +59,19 @@ class MyMatrixClient : public ClientHandler<Searchable *, vector<Point *> *> {
                     buffer = buffer.substr(1, buffer.length() - 1);
                 }
             }
-            auto begin = v->at(v->size() - 2);
-            auto goal = v->at(v->size() - 1);
-            v->erase(v->begin() + v->size() - 1);//delete goal
-            v->erase(v->begin() + v->size() - 1);//delete goal
-            // v->erase(v->begin() + v->size() - 1);//delete inition
-            //v->erase(v->end() - 1);//delete begin
-            Point *inition = new Point(begin->at(0)->getCost(), begin->at(1)->getCost(), -1);
-            Point *goalPoint = new Point(goal->at(0)->getCost(), goal->at(1)->getCost(), -1);
+            auto initionVec = v->at(v->size() - 2);
+            auto goalVec = v->at(v->size() - 1);
+
+            Point *initionTMP = new Point(initionVec->at(0)->getCost(), initionVec->at(1)->getCost(), -1);
+            Point *goalTMP = new Point(goalVec->at(0)->getCost(), goalVec->at(1)->getCost(), -1);
+            v->erase(v->begin() + v->size() - 2, v->begin() + v->size());//delete goal and inition vec
 
             Matrix *matrix = new Matrix(v);
-            matrix->setInition(matrix->getPointByIndex(inition->getX(), inition->getY()));
-            matrix->setGoal(matrix->getPointByIndex(goalPoint->getX(), goalPoint->getY()));
+            matrix->setInition(matrix->getPointByIndex(initionTMP->getX(), initionTMP->getY()));
+            matrix->setGoal(matrix->getPointByIndex(goalTMP->getX(), goalTMP->getY()));
 
-            delete inition;
-            delete goalPoint;
+            delete initionTMP;
+            delete goalTMP;
             return matrix;
         }
         catch (...) {
