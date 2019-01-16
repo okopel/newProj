@@ -17,7 +17,7 @@
 #include "MyMatrixClientHandler.h"
 #include "BFS.h"
 #include "DFS.h"
-#include "myAstar.h"
+#include "Astar.h"
 
 using std::string;
 using std::cout;
@@ -31,7 +31,6 @@ namespace boot {
 
     int main(int argc, char **argv) {
         CashManager *cm = new FileCacheManager("db.txt");
-
         auto searchers = new vector<Searcher *>;
         searchers->push_back(new myAStar());
         searchers->push_back(new Bestfs());
@@ -53,7 +52,11 @@ namespace boot {
     }
 };
 
+#include "Tester.h"
+
 int main(int argc, char **argv) {
     boot::main(argc, argv);
+//    Tester t();
     return 0;
 };
+

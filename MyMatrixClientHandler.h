@@ -64,6 +64,7 @@ class MyMatrixClient : public ClientHandler<Searchable *, vector<Point *> *> {
 
             Point *initionTMP = new Point(initionVec->at(0)->getCost(), initionVec->at(1)->getCost(), -1);
             Point *goalTMP = new Point(goalVec->at(0)->getCost(), goalVec->at(1)->getCost(), -1);
+
             v->erase(v->begin() + v->size() - 2, v->begin() + v->size());//delete goal and inition vec
 
             Matrix *matrix = new Matrix(v);
