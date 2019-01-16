@@ -18,6 +18,7 @@
 #include "BFS.h"
 #include "DFS.h"
 #include "Astar.h"
+#include "ReadFromFile.h"
 
 using std::string;
 using std::cout;
@@ -33,14 +34,18 @@ namespace boot {
         CashManager *cm = new FileCacheManager("db.txt");
         auto searchers = new vector<Searcher *>;
         searchers->push_back(new myAStar());
-        searchers->push_back(new Bestfs());
         searchers->push_back(new DFS());
         searchers->push_back(new BFS());
+//        searchers->push_back(new Bestfs());
 
         for (auto iter: *searchers) {
             Solver<Searchable *, vector<Point *> *> *solver = new SolveSearchAdapter(iter);
             ClientHandler<Searchable *, vector<Point *> *> *clientHandler = new MyMatrixClient(solver, cm);
-            clientHandler->handleClient(argv[1], argv[2]);
+            ReadFromFile fromFile(argv[1]);
+            string prob = fromFile.getStringOfMatrix();
+            string solu;
+            clientHandler->handleClient(prob, solu);
+            cout << solu << endl;
             delete clientHandler;
         }
         for (auto iter: *searchers) {

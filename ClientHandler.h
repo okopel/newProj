@@ -22,8 +22,7 @@ public:
     ClientHandler(Solver<ProblemType, SolutionType> *solver, CashManager *cashManager) : solver(solver),
                                                                                          cashManager(cashManager) {}
 
-
-    virtual void handleClient(string inputFile, string outputFile) = 0;
+    virtual void handleClient(string &pro, string &sol) = 0;
 
     virtual ~ClientHandler() {
 //        delete this->solver;

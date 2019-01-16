@@ -16,13 +16,11 @@ class Tester {
 
 public:
     Tester() {
-
-/*
         auto *cm = new FileCacheManager("db.txt");
         auto *solver = new SolveSearchAdapter(new Bestfs());
         ClientHandler<Searchable *, vector<Point *> *> *clientHandler = new MyMatrixClient(solver, cm);
-        auto *server = new MyParallelServer();
-        server->open(5800, clientHandler);*/
+        auto *server = new MyParallelServer<Searchable *, vector<Point *> *>();
+        server->open(5800, clientHandler);
     }
 };
 

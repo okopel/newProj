@@ -21,7 +21,8 @@ using std::ref;
 using std::cout;
 using std::endl;
 
-class MyParallelServer : public server_side::Server<string, string> {
+template<class P, class S>
+class MyParallelServer : public server_side::Server<P, S> {
 
     static void parallel(ClientHandler<string, string> *clientHandler, int new_sock, bool *isRun) {
         cout << "start" << endl;
@@ -131,8 +132,8 @@ public:
         this->shouldStop = false;
     }
 
-    int open(int port, ClientHandler<string, string> *clientHandler) override {
-        // thread *t = new thread(this->startPar, port, clientHandler, ref(this->shouldStop));
+    int open(int port, ClientHandler<P, S> *clientHandler) override {
+        //  thread *t = new thread(this->startPar, port, clientHandler, ref(this->shouldStop));
         // t->join();
         //delete t;
     }
