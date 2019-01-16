@@ -16,6 +16,12 @@ using std::vector;
 
 class Searcher {
 protected:
+    int totalCost;
+
+public:
+    Searcher() : totalCost(0) {}
+
+protected:
     vector<Point *> *backTrace(Point *initionl, Point *goal) {
         auto vector = new ::vector<Point *>;
         vector->push_back(goal);
@@ -31,6 +37,10 @@ protected:
 public:
 
     virtual vector<Point *> *search(Searchable *searchable) = 0;
+
+    int gettotalCost() {
+        return this->totalCost;
+    }
 };
 
 #endif //NEWPROJ_SEARCHER_H

@@ -47,9 +47,11 @@ public:
         searchable->getInition()->costPlus(this->heuristicCost(searchable->getInition(), searchable->getGoal()));
         while (!open.empty()) {
             auto current = open.top();
+            this->totalCost++;
             open.pop();
             // stop contition : return goal
             if (current->equal(searchable->getGoal())) {
+                cout << this->gettotalCost() << endl;
                 return this->backTrace(searchable->getInition(), searchable->getGoal());
             }
             // open.pop();

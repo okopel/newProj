@@ -28,10 +28,12 @@ public:
         queue.push(searchable->getInition());
         close.push_back(queue.front());
         while (!queue.empty()) {
+            this->totalCost++;
             auto s = queue.front();
             queue.pop();
             // stop condition : return goal
             if (s->equal(searchable->getGoal())) {
+                cout << this->gettotalCost() << endl;
                 return this->backTrace(searchable->getInition(), s);
             }
             auto adjs = searchable->getAllPossibleStates(searchable, s);

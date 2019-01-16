@@ -25,33 +25,6 @@ class MyMatrixClient : public ClientHandler<Searchable *, vector<Point *> *> {
         return new Point(stoi(line.substr(0, delimiter)), stoi(line.substr(delimiter + 1, line.size())), 0);
     }
 
-
-    /*  Matrix *getMatrixbackup(ifstream &inputStream) {
-          auto v = new vector<vector<Point *> *>;
-          int width, height;
-          string buffer;
-          getline(inputStream, buffer);
-          width = height = stoi(buffer);
-          getline(inputStream, buffer);
-          Point *inition = this->getPoint(buffer);
-          getline(inputStream, buffer);
-          Point *goal = this->getPoint(buffer);
-          for (int i = 0; i < height; i++) {
-
-              getline(inputStream, buffer);
-              v->push_back(this->getLine(i, buffer));
-
-          }
-
-          Matrix *matrix = new Matrix(v);
-          matrix->setInition(matrix->getPointByIndex(inition->getX(), inition->getY()));
-          matrix->setGoal(matrix->getPointByIndex(goal->getX(), goal->getY()));
-          delete inition;
-          delete goal;
-          return matrix;
-      }*/
-
-
     string printPath(vector<Point *> *path) {
         string ans;
         auto tmpPoint = path->front();
@@ -62,13 +35,13 @@ class MyMatrixClient : public ClientHandler<Searchable *, vector<Point *> *> {
                 ans += "->";
             }
             if (p->getX() < tmpPoint->getX()) {
-                ans += "left";
+                ans += "Left";
             } else if (p->getX() > tmpPoint->getX()) {
-                ans += "right";
+                ans += "Right";
             } else if (p->getY() < tmpPoint->getY()) {
-                ans += "up";
+                ans += "Up";
             } else if (p->getY() > tmpPoint->getY()) {
-                ans += "down";
+                ans += "Down";
             }
             //cout << p->printIndex();
             tmpPoint = p;

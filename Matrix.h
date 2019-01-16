@@ -106,8 +106,10 @@ public:
             }
 
             int lineNum = 0;
-            buffer = lines.front();
-            lines.erase(lines.begin());
+            if (!lines.empty()) {
+                buffer = lines.front();
+                lines.erase(lines.begin());
+            }
             while (buffer != "END" && buffer != "end" && !lines.empty()) {
                 if (!buffer.empty()) {
                     v->push_back(this->getLine(lineNum, buffer));

@@ -22,6 +22,7 @@ public:
         Point *begin = searchable->getInition();
         Point *goal = this->visit(begin, blacks, grays, searchable);
         if (goal == searchable->getGoal()) {
+            cout << this->gettotalCost() << endl;
             return this->backTrace(searchable->getInition(), goal);
         }
         //  delete blacks;
@@ -30,6 +31,7 @@ public:
     }
 
     Point *visit(Point *state, list<Point *> *blacks, list<Point *> *grays, Searchable *searchable) {
+        this->totalCost++;
         // stop condition
         if (searchable->getGoal()->equal(state)) { return state; }
         grays->push_back(state);

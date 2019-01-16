@@ -19,6 +19,10 @@
 #include "DFS.h"
 #include "Astar.h"
 #include "ReadFromFile.h"
+#include "Server.h"
+#include "StringReverseHandler.h"
+#include "StringReverseClientHandler.h"
+#include "Servers.h"
 
 using std::string;
 using std::cout;
@@ -30,7 +34,17 @@ using std::ostream;
 
 namespace boot {
 
+
     int main(int argc, char **argv) {
+        CashManager *cm = new FileCacheManager("db.txt");
+        Solver<Searchable *, vector<Point *> *> *solver = new SolveSearchAdapter(new BFS());
+        ClientHandler<Searchable *, vector<Point *> *> *clientHandler = new MyMatrixClient(solver, cm);
+        auto server = new MyParallelServer<Searchable *, vector<Point *> *>();
+        server->start(5800, clientHandler);
+    }
+
+
+    int mainv(int argc, char **argv) {
         CashManager *cm = new FileCacheManager("db.txt");
         auto searchers = new vector<Searcher *>;
         searchers->push_back(new myAStar());
@@ -54,6 +68,16 @@ namespace boot {
         }
         delete cm;
         cout << "GOOD JOB" << endl;
+    }
+
+    int mainc(int argc, char **argv) {
+        CashManager *cm = new FileCacheManager("Hello.txt");
+        auto sReverst = new StringReverserHandler();
+        auto cli = new StringReverseClientHandler(sReverst, cm);
+        Server<string, string> *s = new MyParallelServer<string, string>();
+        s->start(5800, cli);
+
+
     }
 };
 

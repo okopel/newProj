@@ -46,10 +46,12 @@ public:
         open.push(initionl);
         list<Point *> closed;
         while (!open.empty()) {
+            this->totalCost++;
             auto s = open.top();
             open.pop();
             closed.push_back(s);
             if (s->equal(goal)) {
+                cout << this->gettotalCost() << endl;
                 return this->backTrace(initionl, s);
             }
             auto *possibleSates = searchable->getAllPossibleStates(searchable, s);
@@ -75,7 +77,6 @@ public:
                     possibleSates->at(i)->setCameFrom(s);
                     open.push(possibleSates->at(i));
                 }
-                //todo Otherwise, adjust its priority in OPEN??
             }
             delete possibleSates;
         }
