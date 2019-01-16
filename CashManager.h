@@ -17,12 +17,25 @@ class CashManager {
 protected:
     map<string, string> solMap;
 public:
-    bool isSolved(const string &problam);
+    CashManager() {}
+
+    virtual bool isSolved(const string &problam);
 
     string getSolution(const string &problam);
 
     virtual void saveSolution(const string &problam, const string &solution) = 0;
 
 };
+
+bool CashManager::isSolved(const string &problam) {
+    if (this->solMap.count(problam) > 0) {
+        return true;
+    }
+    return false;
+}
+
+string CashManager::getSolution(const string &problam) {
+    return this->solMap.at(problam);
+}
 
 #endif //NEWPROJ_CASHMANAGER_H

@@ -18,10 +18,10 @@ protected:
     CashManager *cashManager;
 
 public:
-    ClientHandler() {}
 
     ClientHandler(Solver<ProblemType, SolutionType> *solver, CashManager *cashManager) : solver(solver),
                                                                                          cashManager(cashManager) {}
+
 
     virtual void handleClient(string inputFile, string outputFile) = 0;
 

@@ -45,6 +45,43 @@ class MyMatrixClient : public ClientHandler<Searchable *, vector<Point *> *> {
     }
 
     Matrix *getMatrix(ifstream &inputStream) {
+        try {
+            auto v = new vector<vector<Point *> *>;
+            //int width, height;
+            string buffer;
+            int lineNum = 0;
+            getline(inputStream, buffer);
+            while (buffer != "END" && buffer != "end") {
+                v->push_back(this->getLine(lineNum, buffer));
+                getline(inputStream, buffer);
+                lineNum++;
+                while ((buffer.length() >= 1) && (buffer[0] == ' ')) {
+                    buffer = buffer.substr(1, buffer.length() - 1);
+                }
+            }
+            auto begin = v->at(v->size() - 2);
+            auto goal = v->at(v->size() - 1);
+            v->erase(v->begin() + v->size() - 1);//delete goal
+            v->erase(v->begin() + v->size() - 1);//delete goal
+            // v->erase(v->begin() + v->size() - 1);//delete inition
+            //v->erase(v->end() - 1);//delete begin
+            Point *inition = new Point(begin->at(0)->getCost(), begin->at(1)->getCost(), -1);
+            Point *goalPoint = new Point(goal->at(0)->getCost(), goal->at(1)->getCost(), -1);
+
+            Matrix *matrix = new Matrix(v);
+            matrix->setInition(matrix->getPointByIndex(inition->getX(), inition->getY()));
+            matrix->setGoal(matrix->getPointByIndex(goalPoint->getX(), goalPoint->getY()));
+
+            delete inition;
+            delete goalPoint;
+            return matrix;
+        }
+        catch (...) {
+            throw "Error reading the matrix";
+        }
+    }
+
+    Matrix *getMatrixbackup(ifstream &inputStream) {
         auto v = new vector<vector<Point *> *>;
         int width, height;
         string buffer;
@@ -100,7 +137,7 @@ public:
     MyMatrixClient(Solver<Searchable *, vector<Point *> *> *solver, CashManager *cashManager) :
             ClientHandler<Searchable *, vector<Point *> *>(solver, cashManager) {}
 
-    void handleClient(string inputFile, string outputFile) override {
+    void myFunc(string inputFile, string outputFile) {
         auto matrixes = new vector<Matrix *>;
         ifstream inputStream;
         inputStream.open(inputFile);
@@ -140,6 +177,48 @@ public:
             delete mat;
         }
         delete matrixes;
+        delete this->solver;
+        inputStream.close();
+        outputStream.close();
+    }
+
+    string getSolution(Matrix *matrix) {
+        auto solution = this->solver->solve(matrix);
+        string solutionString;
+        if (solution == nullptr) {
+            solutionString = "There is no path";
+        } else {
+            reverse(solution->begin(), solution->end());
+            solutionString = this->printPath(solution);
+            cout << "DONE!" << endl;
+            delete solution;
+        }
+        return solutionString;
+    }
+
+    void handleClient(string inputFile, string outputFile) override {
+        ifstream inputStream;
+        inputStream.open(inputFile);
+        if (!inputStream.is_open()) {
+            throw "Error in input file";
+        }
+        ofstream outputStream;
+        outputStream.open(outputFile);
+        if (!outputStream.is_open()) {
+            throw "Error in output file";
+        }
+        string buffer;
+        Matrix *m = this->getMatrix(inputStream);
+        string problam = m->getStringToCache();
+        string solution;
+        if (this->cashManager->isSolved(problam)) {
+            solution = this->cashManager->getSolution(problam);
+        } else {
+            solution = this->getSolution(m);
+            this->cashManager->saveSolution(problam, solution);
+        }
+        cout << solution << endl;
+        delete m;
         delete this->solver;
         inputStream.close();
         outputStream.close();

@@ -38,6 +38,8 @@ public:
 
     string getStringToCache() {
         string answer;
+        answer += "(" + to_string(this->inition->getX()) + "," + to_string(this->inition->getY());
+        answer += "," + to_string(this->goal->getX()) + "," + to_string(this->goal->getY()) + ")";
         for (auto item:*this->myMatrix) {
             for (auto node:*item) {
                 answer += to_string(node->getCost()) + ",";

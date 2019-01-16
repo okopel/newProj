@@ -27,7 +27,7 @@ public:
     }
 
     virtual void setInition(Point *inition) {
-        Searchable::inition = inition;
+        this->inition = inition;
     }
 
     virtual Point *getGoal() const {
@@ -35,7 +35,7 @@ public:
     }
 
     virtual void setGoal(Point *goal) {
-        Searchable::goal = goal;
+        this->goal = goal;
     }
 };
 

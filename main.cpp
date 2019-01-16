@@ -17,7 +17,6 @@
 #include "MyMatrixClientHandler.h"
 #include "BFS.h"
 #include "DFS.h"
-#include "Astar.h"
 #include "myAstar.h"
 
 using std::string;
