@@ -23,13 +23,17 @@ public:
 
 protected:
     vector<Point *> *backTrace(Point *initionl, Point *goal) {
+        int costOfPath = 0;
         auto vector = new ::vector<Point *>;
         vector->push_back(goal);
+        costOfPath += goal->getCost();
         auto point = goal->getCameFrom();
         while (point != nullptr) {
+            costOfPath += point->getCost();
             vector->push_back(point);
             point = point->getCameFrom();
         }
+        cout << "cost:" << costOfPath << endl;
         return vector;
 
     }

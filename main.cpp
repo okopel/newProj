@@ -35,22 +35,22 @@ using std::ostream;
 namespace boot {
 
 
-    int main(int argc, char **argv) {
+    int mainc(int argc, char **argv) {
         CashManager *cm = new FileCacheManager("db.txt");
         Solver<Searchable *, vector<Point *> *> *solver = new SolveSearchAdapter(new BFS());
         ClientHandler<Searchable *, vector<Point *> *> *clientHandler = new MyMatrixClient(solver, cm);
         auto server = new MyParallelServer<Searchable *, vector<Point *> *>();
-        server->start(5800, clientHandler);
+        server->start(5108, clientHandler);
     }
 
 
-    int mainv(int argc, char **argv) {
+    int main(int argc, char **argv) {
         CashManager *cm = new FileCacheManager("db.txt");
         auto searchers = new vector<Searcher *>;
         searchers->push_back(new myAStar());
         searchers->push_back(new DFS());
         searchers->push_back(new BFS());
-//        searchers->push_back(new Bestfs());
+        searchers->push_back(new Bestfs());
 
         for (auto iter: *searchers) {
             Solver<Searchable *, vector<Point *> *> *solver = new SolveSearchAdapter(iter);
@@ -64,13 +64,12 @@ namespace boot {
         }
         for (auto iter: *searchers) {
             delete iter;
-
         }
         delete cm;
         cout << "GOOD JOB" << endl;
     }
 
-    int mainc(int argc, char **argv) {
+    int maindc(int argc, char **argv) {
         CashManager *cm = new FileCacheManager("Hello.txt");
         auto sReverst = new StringReverserHandler();
         auto cli = new StringReverseClientHandler(sReverst, cm);

@@ -55,7 +55,9 @@ public:
     }
 
     void saveSolution(const string &problam, const string &solution) override {
+        mutex.lock();
         this->solMap.insert(pair<string, string>(problam, solution));
+        mutex.unlock();
     }
 
     virtual ~FileCacheManager() {

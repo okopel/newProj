@@ -20,13 +20,16 @@ class ReadFromFile {
             string buffer;
             int lineNum = 0;
             getline(inputStream, buffer);
-            while (buffer != "END" && buffer != "end") {
+            while (buffer != "END" && buffer != "end" && buffer != "end\r" && buffer != "end\r\n" &&
+                   buffer != "end\n\r" && buffer != "end\n") {
                 v->push_back(this->getLine(lineNum, buffer));
                 getline(inputStream, buffer);
                 lineNum++;
-                while ((buffer.length() >= 1) && (buffer[0] == ' ')) {
+                while (!buffer.empty() && (buffer.length() >= 1) && (buffer[0] == ' ')) {
                     buffer = buffer.substr(1, buffer.length() - 1);
                 }
+
+
             }
             auto initionVec = v->at(v->size() - 2);
             auto goalVec = v->at(v->size() - 1);
@@ -59,7 +62,7 @@ class ReadFromFile {
                 buffer = "";
                 x++;
             } else {
-                if (c == ' ') {
+                if (c == ' ' || c == '\r') {
                     continue;
                 }
                 buffer += c;

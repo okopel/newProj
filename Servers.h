@@ -95,6 +95,7 @@ void parallel(ClientHandler<P, S> *clientHandler, int new_sock, bool *isRun) {
             }
         }
     } catch (...) {
+        cout << "catch" << endl;
     }
     close(new_sock);
     *isRun = false;
@@ -129,7 +130,7 @@ void openSerial(ClientHandler<P, S> *clientHandler, int port) {
             if (*isTimeOut) {
                 if (new_sock < 0) {
                     if (errno == EWOULDBLOCK) {
-                        cout << "timeout!" << endl;
+                        cout << "timeout of Serial!" << endl;
                         break;
                     } else {
                         perror("other error");
@@ -171,7 +172,7 @@ void openParallel(ClientHandler<P, S> *clientHandler, int port) {
     timeout.tv_sec = 1;
     timeout.tv_usec = 0;
 
-    while (!parallelStop) {
+    while (/*!parallelStop*/true) {
         try {
             int new_sock;
             setsockopt(s, SOL_SOCKET, SO_RCVTIMEO, (char *) &timeout, sizeof(timeout));
@@ -187,7 +188,7 @@ void openParallel(ClientHandler<P, S> *clientHandler, int port) {
             if (isTimeOut) {
                 if (new_sock < 0) {
                     if (errno == EWOULDBLOCK) {
-                        cout << "timeout!" << endl;
+                        cout << "paralel timeout!" << endl;
                         break;
                     } else {
                         perror("other error");
@@ -243,7 +244,7 @@ public:
 
 
     void stop() {
-        parallelStop = true;
+        // parallelStop = true;
     }
 
     void start(int port, ClientHandler<P, S> *clientHandler) {

@@ -94,7 +94,7 @@ public:
             buffer = "";
             vector<string> lines;
             for (auto c: pro) {
-                if (c == ';') {
+                if (c == ';' || c == '\n' || c == '\r') {
                     lines.push_back(buffer);
                     buffer = "";
                     continue;
@@ -129,9 +129,6 @@ public:
             this->setGoal(this->getPointByIndex(xGOAL, yGOAL));
             this->height = myMatrix->size();
             this->width = myMatrix->at(0)->size();
-
-//            delete initionTMP;
-//            delete goalTMP;
 
         }
         catch (...) {

@@ -9,9 +9,11 @@
 
 #include <string>
 #include <map>
+#include <mutex>
 
 using std::string;
 using std::map;
+std::mutex mutex;
 
 class CashManager {
 protected:

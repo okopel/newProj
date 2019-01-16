@@ -10,7 +10,6 @@
 
 #include "FileCacheManager.h"
 #include "MyMatrixClientHandler.h"
-#include "MyParallelServer.h"
 #include "Server.h"
 
 using std::string;
