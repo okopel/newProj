@@ -1,3 +1,9 @@
+/*****************************
+ * Project part B of:
+ * Ori Kopel 205533151
+ * Shlomo Rabinovich 308432517
+ * Januar 2019
+ ******************************/
 
 #ifndef NEWPROJ_SEARCHABLE_H
 #define NEWPROJ_SEARCHABLE_H
@@ -16,20 +22,19 @@ public:
 
     virtual vector<Point *> *getAllPossibleStates(Searchable *searchable, Point *myPlace) = 0;
 
-
-    Point *getInition() const {
+    virtual Point *getInition() const {
         return inition;
     }
 
-    void setInition(Point *inition) {
+    virtual void setInition(Point *inition) {
         Searchable::inition = inition;
     }
 
-    Point *getGoal() const {
+    virtual Point *getGoal() const {
         return goal;
     }
 
-    void setGoal(Point *goal) {
+    virtual void setGoal(Point *goal) {
         Searchable::goal = goal;
     }
 };

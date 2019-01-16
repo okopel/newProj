@@ -1,8 +1,12 @@
-
+/*****************************
+ * Project part B of:
+ * Ori Kopel 205533151
+ * Shlomo Rabinovich 308432517
+ * Januar 2019
+ ******************************/
 
 #ifndef NEWPROJ_STATE_H
 #define NEWPROJ_STATE_H
-
 
 template<class T>
 class State {
@@ -12,15 +16,15 @@ protected:
 public:
     State(T state) : state(state) {}
 
-    void setCameFrom(const State<T> &cameFrom) {
-        State::cameFrom = cameFrom;
+    virtual void setCameFrom(State<T> *cameFrom) {
+        this->cameFrom = cameFrom;
     }
 
-    T getState() const {
+    virtual T getState() const {
         return state;
     }
 
-    void setState(T state) {
+    virtual void setState(T state) {
         State::state = state;
     }
 };

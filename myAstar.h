@@ -1,3 +1,9 @@
+/*****************************
+ * Project part B of:
+ * Ori Kopel 205533151
+ * Shlomo Rabinovich 308432517
+ * Januar 2019
+ ******************************/
 
 #ifndef NEWPROJ_MYASTAR_H
 #define NEWPROJ_MYASTAR_H

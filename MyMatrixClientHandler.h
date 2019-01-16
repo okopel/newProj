@@ -1,4 +1,9 @@
-
+/*****************************
+ * Project part B of:
+ * Ori Kopel 205533151
+ * Shlomo Rabinovich 308432517
+ * Januar 2019
+ ******************************/
 
 #ifndef NEWPROJ_MYMATRIXCLIENTHANDLER_H
 #define NEWPROJ_MYMATRIXCLIENTHANDLER_H
@@ -46,9 +51,7 @@ class MyMatrixClient : public ClientHandler<Searchable *, vector<Point *> *> {
         getline(inputStream, buffer);
         width = height = stoi(buffer);
         getline(inputStream, buffer);
-//        inputStream >> buffer;
         Point *inition = this->getPoint(buffer);
-//        inputStream >> buffer;
         getline(inputStream, buffer);
         Point *goal = this->getPoint(buffer);
         for (int i = 0; i < height; i++) {
