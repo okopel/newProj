@@ -9,12 +9,15 @@
 
 #include "CashManager.h"
 #include <fstream>
+#include <stdio.h>
+#include <iostream>
 
 using std::cout;
 using std::endl;
 using std::ifstream;
 using std::pair;
 using std::ofstream;
+using namespace std;
 
 class FileCacheManager : public CashManager {
     string fileName;
@@ -25,34 +28,53 @@ class FileCacheManager : public CashManager {
         if (!loader.is_open()) {
             return;
         }
-        string p, s;
-        getline(loader, p);
-        getline(loader, s);
-        while (p != "EOF" && !p.empty() && !loader.eof()) {
-            this->saveSolution(p, s);
-            getline(loader, p);
-            getline(loader, s);
+        string buffer, p, s;
+        getline(loader, buffer);
+        bool isPro = true;
+        bool isSol = false;
+        while (buffer != "EOF") {
+            if (isPro) {
+                if (buffer != "\n" && !buffer.empty()) {
+                    p += buffer;
+                }
+                if (buffer.find("end") != string::npos) {
+                    isPro = false;
+                    isSol = true;
+                    continue;
+                }
+            } else if (isSol) {
+                if ((!buffer.empty()) && (buffer.find("endSol") != string::npos)) {
+                    isSol = false;
+                    isPro = true;
+                    this->saveSolution(p, s); //saving in the map
+                } else if (buffer != "\n" && !buffer.empty()) {
+                    s += buffer;
+                }
+            }
+            getline(loader, buffer);
         }
-
     }
 
     void backUpSolution() {
         ofstream saver(this->fileName);
-
         if (!saver.is_open()) {
             throw "Error in open file of saving";
         }
         for (auto prob: this->solMap) {
             saver << prob.first;
             saver << prob.second;
+            saver << "\nendSol\n";
         }
-        saver << "\nEOF";
+        saver << "EOF\n";
+        saver.close();
     }
 
 public:
     FileCacheManager(const string &fileName) : CashManager(), fileName(fileName) {
         this->loadSolutions();
     }
+
+    std::mutex mutex;
 
     void saveSolution(const string &problam, const string &solution) override {
         mutex.lock();

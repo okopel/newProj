@@ -22,7 +22,7 @@ public:
         Point *begin = searchable->getInition();
         Point *goal = this->visit(begin, blacks, grays, searchable);
         if (goal == searchable->getGoal()) {
-            cout << this->gettotalCost() << endl;
+            cout << "DFS:\n num of points which eq" << this->gettotalCost() << endl;
             return this->backTrace(searchable->getInition(), goal);
         }
         //  delete blacks;

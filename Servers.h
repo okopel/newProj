@@ -1,6 +1,7 @@
 #ifndef NEWPROJ_SERVERS_H
 #define NEWPROJ_SERVERS_H
 
+#include "ClientHandler.h"
 #include <thread>
 #include <netinet/in.h>
 #include <vector>
@@ -15,7 +16,8 @@
 #include <stdio.h>
 
 using std::string;
-
+using std::cout;
+using std::endl;
 namespace server_side {
     template<class Problem, class Solution>
     class Server {
@@ -172,7 +174,7 @@ void openParallel(ClientHandler<P, S> *clientHandler, int port) {
     timeout.tv_sec = 1;
     timeout.tv_usec = 0;
 
-    while (/*!parallelStop*/true) {
+    while (!parallelStop) {
         try {
             int new_sock;
             setsockopt(s, SOL_SOCKET, SO_RCVTIMEO, (char *) &timeout, sizeof(timeout));

@@ -15,6 +15,7 @@
 #include <string>
 #include <stdio.h>
 #include <list>
+#include <iostream>
 
 using std::string;
 using std::priority_queue;
@@ -51,7 +52,7 @@ public:
             open.pop();
             closed.push_back(s);
             if (s->equal(goal)) {
-                cout << this->gettotalCost() << endl;
+                cout << "BESTFS:\n num of points which eq" << this->gettotalCost() << endl;
                 return this->backTrace(initionl, s);
             }
             auto *possibleSates = searchable->getAllPossibleStates(searchable, s);

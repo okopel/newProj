@@ -23,6 +23,7 @@
 #include "StringReverseHandler.h"
 #include "StringReverseClientHandler.h"
 #include "Servers.h"
+#include "Astar.h"
 
 using std::string;
 using std::cout;
@@ -31,23 +32,27 @@ using std::vector;
 using std::istream;
 using std::ofstream;
 using std::ostream;
-
+using namespace std;
 namespace boot {
-
-
-    int mainc(int argc, char **argv) {
-        CashManager *cm = new FileCacheManager("db.txt");
-        Solver<Searchable *, vector<Point *> *> *solver = new SolveSearchAdapter(new BFS());
-        ClientHandler<Searchable *, vector<Point *> *> *clientHandler = new MyMatrixClient(solver, cm);
-        auto server = new MyParallelServer<Searchable *, vector<Point *> *>();
-        server->start(5108, clientHandler);
-    }
 
 
     int main(int argc, char **argv) {
         CashManager *cm = new FileCacheManager("db.txt");
+        Solver<Searchable *, vector<Point *> *> *solver = new SolveSearchAdapter(new AStar());
+        ClientHandler<Searchable *, vector<Point *> *> *clientHandler = new MyMatrixClient(solver, cm);
+        auto server = new MyParallelServer<Searchable *, vector<Point *> *>();
+        server->start(stoi(argv[1]), clientHandler);
+        delete cm;
+        delete solver;
+        delete clientHandler;
+        delete server;
+    }
+
+
+    int mainOfFile(int argc, char **argv) {
+        CashManager *cm = new FileCacheManager("db.txt");
         auto searchers = new vector<Searcher *>;
-        searchers->push_back(new myAStar());
+        searchers->push_back(new AStar());
         searchers->push_back(new DFS());
         searchers->push_back(new BFS());
         searchers->push_back(new Bestfs());
@@ -69,22 +74,11 @@ namespace boot {
         cout << "GOOD JOB" << endl;
     }
 
-    int maindc(int argc, char **argv) {
-        CashManager *cm = new FileCacheManager("Hello.txt");
-        auto sReverst = new StringReverserHandler();
-        auto cli = new StringReverseClientHandler(sReverst, cm);
-        Server<string, string> *s = new MyParallelServer<string, string>();
-        s->start(5800, cli);
-
-
-    }
 };
 
-#include "Tester.h"
 
 int main(int argc, char **argv) {
     boot::main(argc, argv);
-//    Tester t();
     return 0;
 };
 

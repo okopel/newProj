@@ -64,7 +64,7 @@ public:
         } else {
             reverse(solution->begin(), solution->end());
             solutionString = this->printPath(solution);
-            cout << "DONE!" << endl;
+            // cout << "DONE!" << endl;
             delete solution;
         }
         return solutionString;
@@ -74,9 +74,10 @@ public:
         if (this->cashManager->isSolved(pro)) {
             sol = this->cashManager->getSolution(pro);//check if solves
         } else {
+            string proToSave = pro;
             Matrix *matrix = new Matrix(pro);//build matrix from string
             sol = this->getSolution(matrix); // solve the problem
-            this->cashManager->saveSolution(pro, sol); //save the solution for later
+            this->cashManager->saveSolution(proToSave, sol); //save the solution for later
         }
     }
 

@@ -9,9 +9,14 @@
 #define NEWPROJ_POINT_H
 
 #include "State.h"
+#include <stdio.h>
+#include <iostream>
 
 using std::ostream;
 using std::to_string;
+using std::string;
+using std::cout;
+using std::endl;
 
 class Point : public State<int> {
     int x;

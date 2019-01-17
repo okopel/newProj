@@ -33,7 +33,7 @@ public:
             queue.pop();
             // stop condition : return goal
             if (s->equal(searchable->getGoal())) {
-                cout << this->gettotalCost() << endl;
+                cout << "BFS\n num of points which eq" << this->gettotalCost() << endl;
                 return this->backTrace(searchable->getInition(), s);
             }
             auto adjs = searchable->getAllPossibleStates(searchable, s);

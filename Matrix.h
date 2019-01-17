@@ -10,7 +10,10 @@
 
 #include "Searchable.h"
 #include <vector>
+#include <iostream>
+#include <stdio.h>
 
+using namespace std;
 using std::vector;
 using std::cout;
 using std::endl;
@@ -61,34 +64,91 @@ public:
     Matrix(string &pro) {
         try {
             int counter = 0;
+            int xINI, yINI, xGOAL, yGOAL = -1;
+            string buffer;
+
+            auto v = new vector<vector<Point *> *>;
+            buffer = "";
+            vector<string> lines;
+            // read matrix line
+            for (auto c: pro) {
+                if (c == '\n') {
+                    if (!buffer.empty()) {
+                        lines.push_back(buffer);
+                    }
+                    buffer = "";
+                    continue;
+                }
+                buffer += c;
+            }
+            // read end line
+            if (!buffer.empty()) {
+                lines.push_back(buffer);
+            }
+            //now we have the whole input in vector of lines
+            for (int i = 0; i < lines.size() - 3; i++) {//-3 becouse inition place, goal place and END
+                auto oneLine = this->getLine(i, lines.at(i));
+                v->push_back(oneLine);
+            }
+            int delimiter = lines.at(lines.size() - 3).find(',');
+            xINI = stoi(lines.at(lines.size() - 3).substr(0, delimiter));
+            yINI = stoi(lines.at(lines.size() - 3).substr(delimiter + 1));
+            delimiter = lines.at(lines.size() - 2).find(',');
+            xGOAL = stoi(lines.at(lines.size() - 2).substr(0, delimiter));
+            yGOAL = stoi(lines.at(lines.size() - 2).substr(delimiter + 1));
+            this->myMatrix = v;
+            this->setInition(this->getPointByIndex(xINI, yINI));
+            this->setGoal(this->getPointByIndex(xGOAL, yGOAL));
+            this->height = myMatrix->size();
+            this->width = myMatrix->at(0)->size();
+        }
+        catch (...) {
+            throw "Error reading the matrix";
+        }
+
+    }
+
+    Matrix(vector<vector<Point *> *> *myMatrix) : Searchable(), myMatrix(myMatrix) {
+        this->height = myMatrix->size();
+        this->width = myMatrix->at(0)->size();
+    }
+
+    void Matrix2(string &pro) {
+        try {
+            string buffer;
+            bool tf = false;
             int xINI = -1;
             int yINI = -1;
             int xGOAL = -1;
             int yGOAL = -1;
-            string buffer;
-            for (auto c:pro) {
-                counter++;
-                if (c == ')') {
-                    break;
-                }
-                if (c == '(') {
-                    continue;
-                }
-                if (c == ',') {
-                    if (xINI == -1) {
-                        xINI = stoi(buffer);
-                    } else if (yINI == -1) {
-                        yINI = stoi(buffer);
-                    } else if (xGOAL == -1) {
-                        xGOAL = stoi(buffer);
-                    }
-                    buffer = "";
-                } else {
-                    buffer += c;
-                }
-            }
-            yGOAL = stoi(buffer);
-            pro = pro.substr(counter, pro.length() - counter + 1);
+            /* if (pro[0] == '(') {
+                 tf = true;
+                 int counter = 0;
+                 for (auto c:pro) {
+                     counter++;
+                     if (c == ')') {
+                         break;
+                     }
+                     if (c == '(') {
+                         continue;
+                     }
+                     if (c == ',') {
+                         if (xINI == -1) {
+                             xINI = stoi(buffer);
+                         } else if (yINI == -1) {
+                             yINI = stoi(buffer);
+                         } else if (xGOAL == -1) {
+                             xGOAL = stoi(buffer);
+                         }
+                         buffer = "";
+                     } else {
+                         buffer += c;
+                     }
+                 }
+                 yGOAL = stoi(buffer);
+                 pro = pro.substr(counter, pro.length() - counter + 1);
+             }*/
+
             auto v = new vector<vector<Point *> *>;
             //int width, height;
             buffer = "";
@@ -109,6 +169,13 @@ public:
             if (!lines.empty()) {
                 buffer = lines.front();
                 lines.erase(lines.begin());
+            }
+            if (!tf) {
+                xINI = lines[lines.size() - 2][0];
+                yINI = lines[lines.size() - 2][1];
+                xGOAL = lines[lines.size() - 1][0];
+                yGOAL = lines[lines.size() - 1][1];
+                lines.erase(lines.begin() + lines.size() - 2, lines.begin() + lines.size() - 1);
             }
             while (buffer != "END" && buffer != "end" && !lines.empty()) {
                 if (!buffer.empty()) {
@@ -137,10 +204,6 @@ public:
 
     }
 
-    Matrix(vector<vector<Point *> *> *myMatrix) : Searchable(), myMatrix(myMatrix) {
-        this->height = myMatrix->size();
-        this->width = myMatrix->at(0)->size();
-    }
 
     string getStringToCache() {
         string answer;
@@ -159,7 +222,7 @@ public:
     void print() {
         for (auto line:*this->myMatrix) {
             for (auto *col:*line) {
-                cout << (col)->print() << "\t";
+                cout << col->print() << "\t";
             }
             cout << endl;
         }

@@ -11,8 +11,12 @@
 #include "Searchable.h"
 #include <vector>
 #include "Point.h"
+#include <stdio.h>
+#include <iostream>
 
 using std::vector;
+using std::cout;
+using std::endl;
 
 class Searcher {
 protected:
@@ -33,7 +37,7 @@ protected:
             vector->push_back(point);
             point = point->getCameFrom();
         }
-        cout << "cost:" << costOfPath << endl;
+        cout << "total cost of path:" << costOfPath << endl;
         return vector;
 
     }

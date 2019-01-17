@@ -19,7 +19,7 @@ using std::map;
 using std::list;
 using std::priority_queue;
 
-class myAStar : public Searcher {
+class AStar : public Searcher {
 private:
     int heuristicCost(Point *current, Point *goal) {
         int x = current->getX() - goal->getX();
@@ -51,7 +51,7 @@ public:
             open.pop();
             // stop contition : return goal
             if (current->equal(searchable->getGoal())) {
-                cout << this->gettotalCost() << endl;
+                cout << "ASTAR" << endl << "num of points which eq" << this->gettotalCost() << endl;
                 return this->backTrace(searchable->getInition(), searchable->getGoal());
             }
             // open.pop();

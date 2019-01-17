@@ -13,7 +13,6 @@
 
 using std::string;
 using std::map;
-std::mutex mutex;
 
 class CashManager {
 protected:
